@@ -8,8 +8,8 @@ dotenv.config()
 
 const app = express();
 app.use(express.json());
-app.use(cors())
 
+app.use(cors({ origin: '*' })); // Replace '*' with your frontend URL for stricter security
 
 
 const PORT = 5000;
@@ -66,6 +66,10 @@ app.get('/send', async (req, res) => {
 
 app.get('/latestMessage', (req, res) => {
     res.json({ message: latestMessage });
+});
+
+app.get('/', (req, res) => {
+    res.send('Welcome to the Telegram API');
 });
 
 app.listen(PORT, () => {
