@@ -144,24 +144,30 @@ app.get('/', (req, res) => {
 
 
 
-app.post('/webhook', (req, res) => {
-    const update = req.body;
-    const message = update?.message?.text;
-
-    if (message) {
-        console.log(`New Message: ${message}`);
-        latestMessage = message; // Update the latest message
-    } else {
-        console.log('No text message in update');
+const setWebhook = async () => {
+    try {
+        const webhookUrl = `https://fetch-tele-data.vercel.app/${BOT_TOKEN}`;
+        const response = await axios.post(
+            `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`,
+            {
+                url: webhookUrl,
+            }
+        );
+        console.log("Webhook set:", response.data);
+    } catch (error) {
+        console.error(
+            "Error setting webhook:",
+            error.response ? error.response.data : error.message
+        );
     }
+};
 
-    res.sendStatus(200);
-});
-
+setWebhook();
 
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 });
+
 
 
