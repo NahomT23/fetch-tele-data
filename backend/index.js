@@ -1,7 +1,7 @@
 import express from 'express';
 import axios from 'axios';
-import cors from 'cors'
-import dotenv from 'dotenv'
+import cors from 'cors';
+import dotenv from 'dotenv';
 
 
 dotenv.config()
@@ -9,8 +9,9 @@ dotenv.config()
 const app = express();
 app.use(express.json());
 
-app.use(cors({ origin: '*' })); // Replace '*' with your frontend URL for stricter security
+// app.use(cors({ origin: '*' })); // Replace '*' with your frontend URL for stricter security
 
+app.use(cors())
 
 const PORT = 5000;
 const BOT_TOKEN = process.env.BOT_TOKEN
