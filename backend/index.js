@@ -63,7 +63,7 @@ app.get('/send', async (req, res) => {
 });
 
 
-// Route to fetch the latest message for the frontend
+
 app.get('/latestMessage', (req, res) => {
     res.json({ message: latestMessage });
 });

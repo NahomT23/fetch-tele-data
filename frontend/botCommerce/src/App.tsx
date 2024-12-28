@@ -6,7 +6,7 @@ function App() {
 
     // Fetch the latest message from the backend
     const getLatestMessage = () => {
-        axios.get('http://localhost:5000/latestMessage')
+        axios.get('https://fetch-tele-data.vercel.app/latestMessage')
             .then(response => {
                 setText(response.data.message || 'No messages received yet');
             })
@@ -17,7 +17,7 @@ function App() {
 
     // Send a hardcoded message to Telegram
     const sendMessage = () => {
-        axios.get('http://localhost:5000/send')
+        axios.get('https://fetch-tele-data.vercel.app/send')
             .then(() => {
                 alert('Message sent to Telegram');
             })
