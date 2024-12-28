@@ -4,9 +4,30 @@ import { useEffect, useState } from 'react';
 function App() {
     const [text, setText] = useState(''); // State to store the latest message
 
-    // Fetch the latest message from the backend
+    // // Fetch the latest message from the backend
+    // const getLatestMessage = () => {
+    //     axios.get('https://fetch-tele-data.vercel.app/latestMessage')
+    //         .then(response => {
+    //             setText(response.data.message || 'No messages received yet');
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching the latest message:', error);
+    //         });
+    // };
+
+    // // Send a hardcoded message to Telegram
+    // const sendMessage = () => {
+    //     axios.get('https://fetch-tele-data.vercel.app/send')
+    //         .then(() => {
+    //             alert('Message sent to Telegram');
+    //         })
+    //         .catch(error => {
+    //             console.error('Error sending message to Telegram:', error);
+    //         });
+    // };
+
     const getLatestMessage = () => {
-        axios.get('https://fetch-tele-data.vercel.app/latestMessage')
+        axios.get('https://fetch-tele-data.vercel.app/api/latestMessage')
             .then(response => {
                 setText(response.data.message || 'No messages received yet');
             })
@@ -14,10 +35,9 @@ function App() {
                 console.error('Error fetching the latest message:', error);
             });
     };
-
-    // Send a hardcoded message to Telegram
+    
     const sendMessage = () => {
-        axios.get('https://fetch-tele-data.vercel.app/send')
+        axios.get('https://fetch-tele-data.vercel.app/api/send')
             .then(() => {
                 alert('Message sent to Telegram');
             })
@@ -25,7 +45,7 @@ function App() {
                 console.error('Error sending message to Telegram:', error);
             });
     };
-
+     
     useEffect(() => {
         getLatestMessage();
         const interval = setInterval(getLatestMessage, 5000); // Poll every 5 seconds
