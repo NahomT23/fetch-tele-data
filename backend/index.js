@@ -67,7 +67,7 @@ app.get('/', (req, res) => {
 // Set webhook during server initialization
 const setWebhook = async () => {
     try {
-        const webhookUrl = `https://fetch-tele-data.vercel.app/${TELEGRAM_BOT_TOKEN}`;
+        const webhookUrl = `https://fetch-tele-data.vercel.app/api/getMessages`;
         const response = await axios.post(
             `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`,
             {
