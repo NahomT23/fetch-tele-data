@@ -13,8 +13,8 @@ const initialState: ItemsState = {
 };
 
 export const fetchItems = createAsyncThunk("items/fetchItems", async () => {
+  // const response = await fetch("http://localhost:5000/api/items");
   const response = await fetch("https://fetch-tele-data.vercel.app/api/items");
-  // REPLACE WITH LOCALHOST:500 FOR LOCAL
   return (await response.json()) as Item[];
 });
 
