@@ -43,19 +43,20 @@ app.post('/api/getMessages', async (req, res) => {
 
             let item = items.find((item) => item.media_group_id === media_group_id);
 
+
             if (caption) {
                 const lines = caption.split('\n').map(line => line.trim());
-
+            
                 const name = lines[0] || '';
                 const description = lines[1] || '';
-                const price = lines[2] || '';
+                const price = lines[2] ? lines[2].replace(/,/g, '') : ''; // Remove commas
                 const specs = lines.slice(3).join('\n');
-
+            
                 if (caption.includes('DELETE')) {
                     items = items.filter((item) => item.media_group_id !== media_group_id);
                     return res.send('Item deleted');
                 }
-
+            
                 if (!item) {
                     item = {
                         id: nextItemId++,
@@ -71,10 +72,11 @@ app.post('/api/getMessages', async (req, res) => {
                 } else {
                     item.name = name || item.name;
                     item.description = description || item.description;
-                    item.price = price || item.price;
+                    item.price = price || item.price; // Update price after removing commas
                     item.specs = specs || item.specs;
                 }
             }
+            
 
             if (photo) {
                 const largestPhoto = photo[photo.length - 1];
@@ -112,7 +114,7 @@ app.get('/api/item-ids', (req, res) => {
 });
 
 
-// // webhook configuration 
+// // // webhook configuration 
 // const setWebhook = async () => {
 //     try {
 //         const webhookUrl = 'https://97bc-102-213-69-34.ngrok-free.app/api/getMessages';
@@ -127,6 +129,8 @@ app.get('/api/item-ids', (req, res) => {
 //         console.error('Error setting webhook:', error.response?.data || error.message);
 //     }
 // };
+
+// setWebhook();
 const setWebhook = async () => {
     try {
         const webhookUrl = `https://fetch-tele-data.vercel.app/api/getMessages`;
@@ -147,7 +151,6 @@ const setWebhook = async () => {
 
 setWebhook();
 
-setWebhook();
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);

@@ -2,20 +2,23 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCartOutline } from "react-icons/io5";
-import { FaUser, FaTimes } from "react-icons/fa"; // Import FaTimes for 'X' icon
-
+import { FaUser, FaTimes } from "react-icons/fa"; 
 import logo from "../assets/logo.jpg";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-//   const totalItemsInCart = getTotalItemsInCart();
+
+  const totalItemsInCart = useSelector((state: any) => {
+    return state.cart.items.reduce((total: number, item: any) => total + item.quantity, 0);
+  });
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
-        setIsMenuOpen(false); // Close the menu if the screen size is large
+        setIsMenuOpen(false); 
       }
     };
 
@@ -36,7 +39,7 @@ function Navbar() {
 
       {/* Navigation Links for Large Screens */}
       <div className="hidden md:flex items-center space-x-8">
-      <Link to="/" className="hover:text-red-500 transition-colors text-lg">
+        <Link to="/" className="hover:text-red-500 transition-colors text-lg">
           Home
         </Link>
         <Link to="/about" className="hover:text-red-500 transition-colors text-lg">
@@ -45,10 +48,13 @@ function Navbar() {
         <Link to="/userProfile" className="hover:text-red-500 transition-colors text-lg">
           <FaUser />
         </Link>
-        <Link to="/cart" className="hover:text-red-500 transition-colors relative pr-14">
+              <Link to="/cart" className="hover:text-red-500 transition-colors relative pr-14">
           <IoCartOutline size={35} />
-          10
-          {/* CART AMOUNT GOES HERE I THINK */}
+          {totalItemsInCart > 0 && (
+            <span className="absolute -top-3 -right-2 text-red-600 rounded-full text-base w-4 h-4 flex items-center justify-center pr-14 font-bold">
+              {totalItemsInCart}
+            </span>
+          )}
         </Link>
       </div>
 
@@ -113,12 +119,13 @@ function Navbar() {
         >
           <Link to="/cart">
             <IoCartOutline size={32} />
-            {/* {totalItemsInCart > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-                {totalItemsInCart}
+            {totalItemsInCart > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+                  {totalItemsInCart}
               </span>
-            )} */}
+            )}
           </Link>
+
         </motion.div>
       </motion.div>
     </nav>
