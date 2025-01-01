@@ -17,9 +17,7 @@ const ItemList: React.FC = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        // const response = await axios.get("http://localhost:5000/api/items");
         const response = await axios.get("https://fetch-tele-data.vercel.app/api/items");
-        
         setItems(response.data);
 
         // Initialize image indexes for all items
@@ -105,3 +103,6 @@ const ItemList: React.FC = () => {
 };
 
 export default ItemList;
+
+
+        // const response = await axios.get("http://localhost:5000/api/items");
