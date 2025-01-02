@@ -194,80 +194,6 @@ const getFileUrl = async (fileId) => {
     }
 };
 
-// Webhook to receive messages from Telegram
-// app.post('/api/getMessages', async (req, res) => {
-//     try {
-//         const message =
-//             req.body.message ||
-//             req.body.edited_message ||
-//             req.body.channel_post ||
-//             req.body.edited_channel_post;
-
-//         if (message) {
-//             const { caption, photo, message_id, media_group_id } = message;
-
-//             let item = items.find((item) => item.media_group_id === media_group_id);
-
-
-//             if (caption) {
-//                 const lines = caption.split('\n').map(line => line.trim());
-            
-//                 const name = lines[0] || '';
-//                 const description = lines[1] || '';
-//                 const price = lines[2] ? lines[2].replace(/,/g, '') : ''; // Remove commas
-//                 const specs = lines.slice(3).join('\n');
-            
-//                 if (caption.includes('DELETE')) {
-//                     items = items.filter((item) => item.media_group_id !== media_group_id);
-//                     return res.send('Item deleted');
-//                 }
-            
-//                 if (!item) {
-//                     item = {
-//                         id: nextItemId++,
-//                         message_id,
-//                         media_group_id,
-//                         name,
-//                         description,
-//                         price,
-//                         specs,
-//                         imageUrls: [],
-//                     };
-//                     items.push(item);
-//                 } else {
-//                     item.name = name || item.name;
-//                     item.description = description || item.description;
-//                     item.price = price || item.price; // Update price after removing commas
-//                     item.specs = specs || item.specs;
-//                 }
-//             }
-            
-
-//             if (photo) {
-//                 const largestPhoto = photo[photo.length - 1];
-//                 const imageUrl = await getFileUrl(largestPhoto.file_id);
-//                 if (imageUrl) {
-//                     if (!item) {
-//                         item = {
-//                             id: nextItemId++,
-//                             message_id,
-//                             media_group_id,
-//                             imageUrls: [imageUrl],
-//                         };
-//                         items.push(item);
-//                     } else if (!item.imageUrls.includes(imageUrl)) {
-//                         item.imageUrls.push(imageUrl);
-//                     }
-//                 }
-//             }
-//         }
-//         res.sendStatus(200);
-//     } catch (error) {
-//         console.error('Error processing the message:', error);
-//         res.sendStatus(500);
-//     }
-// });
-
 app.post("/api/getMessages", async (req, res) => {
   try {
     const message = req.body.message || req.body.channel_post;
@@ -346,10 +272,6 @@ app.post("/api/getMessages", async (req, res) => {
 
 
 
-// Endpoint to get all items
-// app.get('/api/items', (req, res) => {
-//     res.json(items);
-// });
 
 
 app.get("/api/items", async (req, res) => {
@@ -369,28 +291,6 @@ app.get('/api/item-ids', (req, res) => {
     res.json({ itemIds: items.map(item => item.id) });
 });
 
-
-
-
-
-// webhook configuration 
-
-// const setWebhook = async () => {
-//     try {
-//         const webhookUrl = 'https://97bc-102-213-69-34.ngrok-free.app/api/getMessages';
-//         const response = await axios.post(
-//             `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`,
-//             {
-//                 url: webhookUrl,
-//             }
-//         );
-//         console.log('Webhook set:', response.data);
-//     } catch (error) {
-//         console.error('Error setting webhook:', error.response?.data || error.message);
-//     }
-// };
-
-// setWebhook();
 
 
 const setWebhook = async () => {
