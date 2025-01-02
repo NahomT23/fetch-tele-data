@@ -13,6 +13,7 @@
 # TODO Frontend:
 - Make the UI mobile responsive and beatiful
 - Make the data be stored in the local host so that it doesn't go away when user refreshs
+- Make the button behavior the same as the other project
 - Add firebase for auth and database
 - Make the send back to telegram upon purchase work
 - Integrate Stripe
