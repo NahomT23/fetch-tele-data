@@ -10,10 +10,11 @@ interface CartState {
   totalPrice: number;
 }
 
-const initialState: CartState = {
-  items: [],
-  totalPrice: 0,
-};
+// Retrieve initial state from localStorage
+const savedCart = localStorage.getItem("cart");
+const initialState: CartState = savedCart
+  ? JSON.parse(savedCart)
+  : { items: [], totalPrice: 0 };
 
 const cartSlice = createSlice({
   name: "cart",
@@ -34,6 +35,9 @@ const cartSlice = createSlice({
         (sum, item) => sum + item.price * item.quantity,
         0
       );
+
+      // Save to localStorage
+      localStorage.setItem("cart", JSON.stringify(state));
     },
 
     removeFromCart: (state, action: PayloadAction<number>) => {
@@ -45,12 +49,18 @@ const cartSlice = createSlice({
           (sum, item) => sum + item.price * item.quantity,
           0
         );
+
+        // Save to localStorage
+        localStorage.setItem("cart", JSON.stringify(state));
       }
     },
 
     clearCart: (state) => {
       state.items = [];
       state.totalPrice = 0;
+
+      // Save to localStorage
+      localStorage.setItem("cart", JSON.stringify(state));
     },
 
     decrementQuantity: (state, action: PayloadAction<number>) => {
@@ -70,6 +80,9 @@ const cartSlice = createSlice({
           0
         );
       }
+
+      // Save to localStorage
+      localStorage.setItem("cart", JSON.stringify(state));
     },
   },
 });

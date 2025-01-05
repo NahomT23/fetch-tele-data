@@ -82,7 +82,7 @@ const ItemList: React.FC = () => {
         />
 
         {status === 'loading' ? (
-          <p className="text-center text-gray-700">Loading items...</p>
+          <p className="text-center text-4xl text-red-960">Loading items...</p>
         ) : filteredItems.length === 0 ? (
           <p className="text-center text-gray-700">No items available.</p>
         ) : (
