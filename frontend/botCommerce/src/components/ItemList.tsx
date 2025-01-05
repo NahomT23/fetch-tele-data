@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchItems } from '../features/ShopCart/itemSlice';
-import { AppDispatch, RootState } from '../app/store';
-import ItemCard from './ItemCard';
-import { Item } from '../types';
-import SearchAndFilter from './SearchAndFilter'; 
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchItems } from "../features/ShopCart/itemSlice";
+import { AppDispatch, RootState } from "../app/store";
+import ItemCard from "./ItemCard";
+import { Item } from "../types";
+import SearchAndFilter from "./SearchAndFilter";
 
 const ItemList: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState<Record<number, number>>({});
-  const [searchQuery, setSearchQuery] = useState<string>(''); // State for search query
-  const [sortOrder, setSortOrder] = useState<string>(''); // State for sorting
-  const [minPrice, setMinPrice] = useState<string>(''); // State for minimum price
-  const [maxPrice, setMaxPrice] = useState<string>(''); // State for maximum price
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<string>("");
+  const [minPrice, setMinPrice] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<string>("");
   const [showSortOptions, setShowSortOptions] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
 
   const { items, status } = useSelector((state: RootState) => state.items);
 
   useEffect(() => {
-    if (status === 'idle') {
+    if (status === "idle") {
       dispatch(fetchItems());
     }
   }, [status]);
@@ -47,7 +47,6 @@ const ItemList: React.FC = () => {
     }));
   };
 
-  // Filter and sort logic
   const filteredItems = items
     .filter((item) => {
       const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -56,9 +55,9 @@ const ItemList: React.FC = () => {
       return matchesSearch && matchesMinPrice && matchesMaxPrice;
     })
     .sort((a, b) => {
-      if (sortOrder === 'asc') {
+      if (sortOrder === "asc") {
         return a.price - b.price;
-      } else if (sortOrder === 'desc') {
+      } else if (sortOrder === "desc") {
         return b.price - a.price;
       }
       return 0;
@@ -67,7 +66,6 @@ const ItemList: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <main className="container mx-auto py-8">
-        {/* Search and Filter Component */}
         <SearchAndFilter
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -81,13 +79,12 @@ const ItemList: React.FC = () => {
           setShowSortOptions={setShowSortOptions}
         />
 
-        {status === 'loading' ? (
+        {status === "loading" ? (
           <p className="text-center text-4xl text-red-960">Loading items...</p>
         ) : filteredItems.length === 0 ? (
           <p className="text-center text-gray-700">No items available.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
-            {/* Center the content of grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredItems.map((item) => (
               <ItemCard
                 key={item.id}

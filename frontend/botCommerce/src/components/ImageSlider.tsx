@@ -7,31 +7,26 @@ interface ImageSliderProps {
   onNext: () => void;
   onPrev: () => void;
 }
-
- 
-
 const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentIndex, onNext, onPrev }) => (
-  <div className="relative h-64">
+  <div className="relative h-48 sm:h-64">
     {images.length > 0 ? (
       <>
-
         <img
           src={images[currentIndex]}
           alt="Item"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-md"
         />
-
         <button
           className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full hover:bg-gray-600"
           onClick={onPrev}
         >
-          ◀
+                      &lt;
         </button>
         <button
           className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full hover:bg-gray-600"
           onClick={onNext}
         >
-          ▶
+        &gt;
         </button>
       </>
     ) : (
@@ -41,5 +36,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentIndex, onNext,
     )}
   </div>
 );
+
+
 
 export default ImageSlider;

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { formatPrice } from '../utils/formatPrice';
@@ -11,8 +10,8 @@ const ItemDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [item, setItem] = useState<Item | null>(null);
   const { items: itemList } = useSelector((state: RootState) => state.items);
-  const { items: cartItems } = useSelector((state: RootState) => state.cart); // Access the cart state
-  const [currentIndex, setCurrentIndex] = useState(0); // For image slider
+  const { items: cartItems } = useSelector((state: RootState) => state.cart);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -69,15 +68,15 @@ const ItemDetailPage: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex flex-col md:flex-row justify-center gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Image Slider */}
         <div className="flex-1">
           <div className="relative">
-            <img
-              src={item.imageUrls[currentIndex]}
-              alt={`Image ${currentIndex + 1}`}
-              className="max-w-md h-auto object-cover rounded-lg mx-auto"
-              style={{ height: '300px', width: '400px' }}
+          <img
+                        src={item.imageUrls[currentIndex]}
+                alt={`Image ${currentIndex + 1}`}
+                className="max-w-md h-auto object-cover rounded-lg mx-auto"
+               style={{ height: '300px', width: '400px' }}
             />
             <button
               className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 hover:bg-gray-300"
@@ -115,7 +114,6 @@ const ItemDetailPage: React.FC = () => {
           <p className="text-gray-600 mt-2">{item.description}</p>
           <p className="text-blue-500 font-bold mt-2">Price: ${formatPrice(item.price)}</p>
           <p className="text-sm text-gray-500 mt-2">{item.specs}</p>
-          <p className="">ITEM ID: {item.id}</p>
 
           <div className="flex flex-col items-center mt-4">
             {quantity > 0 ? (

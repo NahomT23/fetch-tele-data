@@ -63,14 +63,14 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, currentImageIndex, onNextImag
 
       <Link to={`/item/${item.id}`}>
         <div className="p-4">
-          <h2 className="text-xl font-semibold text-gray-800">{item.name}</h2>
-          <p className="text-gray-600">{item.description}</p>
-          <p className="text-blue-500 font-bold mt-2">Price: ${formatPrice(Number(item.price))}</p>
-          <p className=''>ITEM ID{item.id}</p>
+          <h2 className="text-xl font-bold text-red-950">{item.name}</h2>
+          <p className="text-gray-950">{item.description}</p>
+          <p className="text-gray-900 font-bold mt-1">Price: ${formatPrice(Number(item.price))}</p>
+          
         </div>
       </Link>
 
-      <div className="flex flex-col items-center mt-4">
+      <div className="flex flex-col items-center mt-1">
         {quantity > 0 ? (
           <div className="flex items-center space-x-2 mb-2">
             <button
@@ -101,4 +101,3 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, currentImageIndex, onNextImag
 };
 
 export default ItemCard;
-
