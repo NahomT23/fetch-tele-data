@@ -152,7 +152,7 @@ app.get('/api/items/:id', async (req, res) => {
 
 const setWebhook = async () => {
   try {
-      const webhookUrl = `https://ad74-102-213-68-75.ngrok-free.app/api/getMessages`;                   
+      const webhookUrl = `https://fetch-tele-data.vercel.app/api/getMessages`;                   
       const response = await axios.post(
           `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`,
           {
