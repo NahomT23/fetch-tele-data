@@ -4,6 +4,7 @@ import ItemList from "./components/ItemList";
 import Navbar from "./components/Navbar";
 import Cart from "./components/Cart";
 import ItemDetailPage from "./components/ItemDetailPage";
+import About from "./pages/About";
 
 const App: React.FC = () => {
   return (
@@ -13,7 +14,7 @@ const App: React.FC = () => {
             <Route path="/" element={<ItemList/>}/>
             <Route path="/cart" element={<Cart/>}/>
             <Route path="/item/:id" element={<ItemDetailPage/>}/>
-           
+            <Route path="/about" element={<About/>}/>
         </Routes>
     </Router>
   );

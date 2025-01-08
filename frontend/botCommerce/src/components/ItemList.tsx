@@ -65,6 +65,13 @@ const ItemList: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
+
+<div className="flex justify-center text-center">
+                <p className="w-full whitespace-nowrap overflow-hidden animate-typing font-baskervville text-3xl text-red-950 my-2">
+                    KALIT WATCH STORE
+                </p>
+            </div>
+
       <main className="container mx-auto py-8">
         <SearchAndFilter
           searchQuery={searchQuery}

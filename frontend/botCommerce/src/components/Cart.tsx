@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
 import { addToCart, removeFromCart, clearCart, decrementQuantity } from "../features/ShopCart/cartSlice";
 import { formatPrice } from "../utils/formatPrice";
-
-
+import { Link } from "react-router-dom";
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
@@ -28,7 +27,9 @@ const Cart: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <main className="container mx-auto py-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Your Cart</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 text-center">
+          Your Cart
+        </h1>
         {items.length === 0 ? (
           <p className="text-center text-gray-600">Your cart is empty.</p>
         ) : (
@@ -37,24 +38,28 @@ const Cart: React.FC = () => {
               {items.map((item) => (
                 <div
                   key={item.id}
-
-                  className="bg-white shadow-md rounded-lg p-4 flex items-center gap-4"
+                  className="bg-white shadow-md rounded-lg p-4 flex flex-col md:flex-row items-center gap-4"
                 >
+                  <Link to={`/item/${item.id}`}>
+                  {/* Image */}
                   <img
                     src={item.imageUrls[0]}
                     alt={item.name}
-                    className="w-20 h-20 object-cover rounded"
+                    className="w-20 h-20 md:w-24 md:h-24 object-cover rounded"
                   />
-                  <div className="flex-grow">
-                    <h2 className="text-xl font-semibold text-gray-800">
+                                    </Link>
+                  {/* Item Details */}
+                  <div className="flex-grow text-center md:text-left">
+                    <h2 className="text-lg md:text-xl font-semibold text-red-950 truncate">
                       {item.name}
                     </h2>
-                    <p className="text-blue-500 font-bold">
+                    <p className="text-gray-900 font-bold">
                       Price: ${formatPrice(Number(item.price))}
                     </p>
-                    <p className=''>ITEM ID: {item.id}</p>
+
                   </div>
-                  <div className="flex items-center gap-2">
+                  {/* Quantity Controls */}
+                  <div className="flex items-center justify-center md:justify-start gap-2">
                     <button
                       className="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300"
                       onClick={() => handleDecrement(item.id)}
@@ -69,8 +74,9 @@ const Cart: React.FC = () => {
                       +
                     </button>
                   </div>
+                  {/* Remove Button */}
                   <button
-                    className="text-red-500 hover:underline"
+                    className="text-red-500 hover:underline text-sm md:text-base"
                     onClick={() => dispatch(removeFromCart(item.id))}
                   >
                     Remove
@@ -78,19 +84,22 @@ const Cart: React.FC = () => {
                 </div>
               ))}
             </div>
+            
+            {/* Total Price and Actions */}
+
             <div className="mt-6">
-              <h2 className="text-2xl font-semibold text-gray-800">
+              <h2 className="text-lg md:text-2xl font-semibold text-gray-950 text-center">
                 Total Price: ${formatPrice(totalPrice)}
               </h2>
-              <div className="mt-4 flex gap-4">
+              <div className="mt-4 flex flex-col md:flex-row justify-center gap-4">
                 <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm md:text-base"
                   onClick={handleClearCart}
                 >
                   Clear Cart
                 </button>
                 <button
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 text-sm md:text-base"
                 >
                   Checkout
                 </button>

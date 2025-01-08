@@ -35,7 +35,12 @@ const getFileUrl = async (fileId) => {
 
 app.post("/api/getMessages", async (req, res) => {
   try {
-    const message = req.body.message || req.body.channel_post;
+
+    const message =
+    req.body.message ||
+    req.body.edited_message ||
+    req.body.channel_post ||
+    req.body.edited_channel_post;
 
     if (message) {
       const { caption, photo, message_id, media_group_id } = message;
@@ -58,7 +63,8 @@ app.post("/api/getMessages", async (req, res) => {
           });
           return res.send("Item deleted");
         }
-
+       
+      
         const itemRef = collection(db, "items");
 
         const item = {
