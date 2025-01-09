@@ -6,14 +6,10 @@
 - Express
 - Firebase Auth and Database
 # TODO Backend:
-- Integrate Stripe
-- Make sure the Delete and edit work
+- Make sure the Delete and Edit work, additionally for when the item is deleted on telegram it is also removed on the database
 - Fix the image issue in the backend so it is downlaoded in the databse
-- Fix the crud operation issue that is happening from telegram and Firebase
+- Fix the folder structre for the backend
 # TODO Frontend:
-- Make the UI mobile responsive and beatiful
-- Add firebase for auth and database
-- Make the send back to telegram upon purchase work
 - Add the loading from the other project
 
 

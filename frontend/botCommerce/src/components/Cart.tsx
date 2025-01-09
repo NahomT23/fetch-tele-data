@@ -24,6 +24,38 @@ const Cart: React.FC = () => {
     dispatch(clearCart());
   };
 
+
+  const handleCheckout = async () => {
+    try {
+
+      const response = await fetch('http://localhost:5000/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: items.map((item) => ({
+            id: item.id,
+            name: item.name,
+            price: parseFloat(item.price.toString().replace(/,/g, '')),
+            quantity: item.quantity,
+          })),
+        }),
+      });
+      
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url; // Redirect to Stripe Checkout
+      } else {
+        console.error('Failed to create checkout session:', data);
+      }
+    } catch (error) {
+      console.error('Error during checkout:', error);
+    }
+  };
+  
+
+
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <main className="container mx-auto py-8">
@@ -100,6 +132,7 @@ const Cart: React.FC = () => {
                 </button>
                 <button
                   className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 text-sm md:text-base"
+                  onClick={handleCheckout}
                 >
                   Checkout
                 </button>

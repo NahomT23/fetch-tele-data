@@ -112,7 +112,7 @@ const ItemDetailPage: React.FC = () => {
         <div className="flex-1 bg-white shadow-lg rounded-lg p-4">
           <h2 className="text-2xl font-semibold text-gray-800">{item.name}</h2>
           <p className="text-gray-600 mt-2">{item.description}</p>
-          <p className="text-blue-500 font-bold mt-2">Price: ${formatPrice(item.price)}</p>
+          <p className="text-blue-500 font-bold mt-2">Price: ${formatPrice(Number(item.price))}</p>
           <p className="text-sm text-gray-500 mt-2">{item.specs}</p>
 
           <div className="flex flex-col items-center mt-4">
