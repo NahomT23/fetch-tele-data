@@ -49,7 +49,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, currentImageIndex, onNextImag
     }
   };
 
-  console.log("FROM THE ITEMCARD CONSOLE: ", item.id)
+
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition duration-200">
       <ImageSlider

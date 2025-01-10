@@ -1,6 +1,7 @@
 import { collection, addDoc, doc, updateDoc, getDocs, deleteDoc, query, where, getDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "./config/firebase.js"; // Import Firestore and Storage
+import { db, storage } from "./config/firebase.js";
+
 import express from "express";
 import axios from "axios";
 import cors from "cors";
@@ -198,7 +199,7 @@ app.post('/create-checkout-session', async (req, res) => {
 
 const setWebhook = async () => {
   try {
-    const webhookUrl = `https://fetch-tele-data.vercel.app/api/getMessages`;
+    const webhookUrl = `https://fetch-tele-data-p6pn.vercel.app/api/getMessages`;
     const response = await axios.post(
       `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`,
       {
@@ -219,3 +220,5 @@ setWebhook();
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 }); 
+
+
