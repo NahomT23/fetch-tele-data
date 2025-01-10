@@ -17,7 +17,7 @@ const PORT = 5000;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const CLIENT_URL = process.env.CLIENT_URL
-const WEBHOOK_URL = process.env.WEBHOOK_URL;
+
 
 const getFileUrl = async (fileId) => {
   try {
@@ -219,5 +219,3 @@ setWebhook();
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 }); 
-
-
