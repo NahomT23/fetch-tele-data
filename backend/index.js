@@ -9,6 +9,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+
+app.use(cors({
+  origin: "https://fetch-tele-data.vercel.app/",
+  credentials: true, 
+}));
+
 const app = express();
 app.use(express.json());
 app.use(cors());
