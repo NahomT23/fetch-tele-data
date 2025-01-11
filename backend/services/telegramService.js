@@ -16,3 +16,4 @@ export const setTelegramWebhook = async (webhookUrl, botToken) => {
     throw new Error("Failed to set Telegram webhook");
   }
 };
+

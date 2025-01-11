@@ -75,25 +75,3 @@ export const handleTelegramMessages = async (req, res) => {
     res.sendStatus(500);
   }
 };
-
-
-// webhook for telegram
-
-export const setWebhook = async () => {
-    try {
-      const webhookUrl = `https://fetch-tele-data.vercel.app/api/getMessages`;                   
-      const response = await axios.post(
-        `https://api.telegram.org/bot${process.env.BOT_TOKEN}/setWebhook`,
-        {
-          url: webhookUrl,
-        }
-      );
-      console.log('Webhook set:', response.data);
-    } catch (error) {
-      console.error(
-        'Error setting webhook:',
-        error.response ? error.response.data : error.message
-      );
-    }
-  };
-  
