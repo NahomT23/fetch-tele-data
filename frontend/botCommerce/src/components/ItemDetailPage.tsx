@@ -99,7 +99,7 @@ const ItemDetailPage: React.FC = () => {
                   src={src}
                   alt={`Thumbnail ${index + 1}`}
                   className={`w-16 h-16 object-cover border-2 cursor-pointer rounded ${
-                    currentIndex === index ? 'border-blue-500' : 'border-gray-200'
+                    currentIndex === index ? 'border-red-950' : 'border-gray-200'
                   }`}
                   onClick={() => handleThumbnailClick(index)}
                 />

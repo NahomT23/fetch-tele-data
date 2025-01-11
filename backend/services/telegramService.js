@@ -1,4 +1,3 @@
-// services/telegramService.js
 import axios from "axios";
 
 export const setTelegramWebhook = async (webhookUrl, botToken) => {

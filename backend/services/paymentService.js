@@ -1,4 +1,3 @@
-// services/paymentService.js
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -13,7 +12,7 @@ export const createCheckoutSession = async (items) => {
           product_data: {
             name: item.name,
           },
-          unit_amount: Math.round(item.price * 100), // Convert price to cents
+          unit_amount: Math.round(item.price * 100), 
         },
         quantity: item.quantity,
       })),

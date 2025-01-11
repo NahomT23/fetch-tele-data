@@ -1,4 +1,3 @@
-// controllers/paymentController.js
 import * as paymentService from "../services/paymentService.js";
 
 // Create a Stripe Checkout session

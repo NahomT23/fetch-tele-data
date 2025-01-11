@@ -1,4 +1,3 @@
-// controllers/telegramController.js
 import * as telegramService from "../services/telegramService.js"; // Assuming you've created the service already
 import { collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase.js"; // Firebase configuration
@@ -78,7 +77,7 @@ export const handleTelegramMessages = async (req, res) => {
 };
 
 
-// controllers/telegramController.js
+// webhook for telegram
 
 export const setWebhook = async () => {
     try {
