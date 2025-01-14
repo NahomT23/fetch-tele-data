@@ -4,8 +4,14 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "./config/firebase.js";
+import Stripe from 'stripe';
+
+
 
 dotenv.config();
+
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 app.use(express.json());
