@@ -7,11 +7,11 @@ import { db } from "./config/firebase.js";
 import Stripe from 'stripe';
 
 
-
 dotenv.config();
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 const app = express();
 app.use(express.json());
@@ -19,6 +19,7 @@ app.use(cors());
 
 const PORT = 5000;
 const BOT_TOKEN = process.env.BOT_TOKEN;
+const CLIENT_URL = process.env.CLIENT_URL
 
 
 // let items = [];
