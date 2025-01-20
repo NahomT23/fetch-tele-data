@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import axios from "axios";
 import routes from "./routes/routes.js";
 import { createCheckoutSession } from "./controllers/paymentController.js";
-import path from "path";
 
 
 dotenv.config();
@@ -26,7 +25,7 @@ app.use("/api", routes);
 
 app.post("/create-checkout-session", createCheckoutSession);
 
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
 
 // Set Telegram Webhook
 const setWebhook = async () => {

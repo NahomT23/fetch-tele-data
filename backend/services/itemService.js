@@ -2,10 +2,6 @@ import { collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc, g
 import { db } from "../config/firebase.js";
 import { getFileUrl } from "../controllers/telegramController.js";
 import Stripe from 'stripe';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import axios from "axios";
-import fs from "fs";
-import path from "path";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -14,27 +10,27 @@ dotenv.config();
 const CLIENT_URL = process.env.CLIENT_URL
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export const addItem = async (message) => {
-  const { caption, message_id, media_group_id } = message;
-  const lines = caption.split("\n").map((line) => line.trim());
-  const name = lines[0] || "";
-  const description = lines[1] || "";
-  const price = lines[2] ? lines[2].replace(/,/g, "") : "";
-  const specs = lines.slice(3).join("\n");
+// export const addItem = async (message) => {
+//   const { caption, message_id, media_group_id } = message;
+//   const lines = caption.split("\n").map((line) => line.trim());
+//   const name = lines[0] || "";
+//   const description = lines[1] || "";
+//   const price = lines[2] ? lines[2].replace(/,/g, "") : "";
+//   const specs = lines.slice(3).join("\n");
 
-  const itemRef = collection(db, "items");
-  const item = {
-    message_id,
-    media_group_id,
-    name,
-    description,
-    price,
-    specs,
-    imageUrls: [],
-  };
+//   const itemRef = collection(db, "items");
+//   const item = {
+//     message_id,
+//     media_group_id,
+//     name,
+//     description,
+//     price,
+//     specs,
+//     imageUrls: [],
+//   };
 
-  await addDoc(itemRef, item);
-};
+//   await addDoc(itemRef, item);
+// };
 
 // export const updateItemImages = async (photo, media_group_id) => {
 //   const largestPhoto = photo[photo.length - 1];
@@ -59,61 +55,48 @@ export const addItem = async (message) => {
 //   }
 // };
 
+export const addItem = async (message) => {
+  const { caption, message_id, media_group_id } = message;
+  const lines = caption.split("\n").map((line) => line.trim());
+  const name = lines[0] || "";
+  const description = lines[1] || "";
+  const price = lines[2] ? lines[2].replace(/,/g, "") : "";
+  const specs = lines.slice(3).join("\n");
 
+  const itemRef = collection(db, "items");
+  const item = {
+    message_id,
+    media_group_id,
+    name,
+    description,
+    price,
+    specs,
+    imageUrls: [], // Will store Base64-encoded image(s) here
+  };
 
-// Directory to store uploaded images
-const uploadDir = path.join(process.cwd(), "uploads");
+  await addDoc(itemRef, item);
+};
 
-// Ensure the directory exists
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
 
 export const updateItemImages = async (photo, media_group_id) => {
   const largestPhoto = photo[photo.length - 1];
-  const imageUrl = await getFileUrl(largestPhoto.file_id, process.env.BOT_TOKEN);
+  const base64Image = await getFileBase64(largestPhoto.file_id, process.env.BOT_TOKEN);
 
-  if (imageUrl) {
-    try {
-      // Generate a unique filename for the image
-      const filename = `${media_group_id}_${Date.now()}.jpg`;
-      const filePath = path.join(uploadDir, filename);
+  if (base64Image) {
+    const itemRef = collection(db, "items");
+    const q = query(itemRef, where("media_group_id", "==", media_group_id));
+    const querySnapshot = await getDocs(q);
 
-      // Download and save the image locally
-      const response = await axios({
-        url: imageUrl,
-        method: "GET",
-        responseType: "stream",
+    if (!querySnapshot.empty) {
+      querySnapshot.forEach(async (docSnap) => {
+        const existingItem = docSnap.data();
+        if (!existingItem.imageUrls.includes(base64Image)) {
+          existingItem.imageUrls.push(base64Image);
+          await updateDoc(doc(db, "items", docSnap.id), {
+            imageUrls: existingItem.imageUrls,
+          });
+        }
       });
-
-      await new Promise((resolve, reject) => {
-        response.data
-          .pipe(fs.createWriteStream(filePath))
-          .on("finish", resolve)
-          .on("error", reject);
-      });
-
-      // Generate the hosted image URL
-      const hostedImageUrl = `${process.env.CLIENT_URL}/uploads/${filename}`;
-
-      // Update Firestore with the hosted URL
-      const itemRef = collection(db, "items");
-      const q = query(itemRef, where("media_group_id", "==", media_group_id));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        querySnapshot.forEach(async (docSnap) => {
-          const existingItem = docSnap.data();
-          if (!existingItem.imageUrls.includes(hostedImageUrl)) {
-            existingItem.imageUrls.push(hostedImageUrl);
-            await updateDoc(doc(db, "items", docSnap.id), {
-              imageUrls: existingItem.imageUrls,
-            });
-          }
-        });
-      }
-    } catch (error) {
-      console.error("Error downloading and saving image:", error);
     }
   }
 };
