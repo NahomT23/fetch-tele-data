@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import axios from "axios";
 import routes from "./routes/routes.js";
 import { createCheckoutSession } from "./controllers/paymentController.js";
+import path from "path";
+
 
 dotenv.config();
 
@@ -11,12 +13,21 @@ const app = express();
 const PORT = 5000;
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
+
+
+
+
+
 app.use(express.json());
 app.use(cors());
 
 // Routes
 app.use("/api", routes);
+
 app.post("/create-checkout-session", createCheckoutSession);
+
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
 // Set Telegram Webhook
 const setWebhook = async () => {
   try {
