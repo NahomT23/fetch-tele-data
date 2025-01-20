@@ -13,10 +13,6 @@ const PORT = 5000;
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
 
-
-
-
-
 app.use(express.json());
 app.use(cors());
 
