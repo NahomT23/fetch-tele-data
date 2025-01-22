@@ -75,7 +75,7 @@ export const updateItemImages = async (photo, media_group_id) => {
   if (imageUrl) {
     try {
       // Upload to Cloudinary
-      const cloudinaryResponse = await cloudinary.v2.uploader.upload(imageUrl, {
+      const cloudinaryResponse = await cloudinary.uploader.upload(imageUrl, {
         folder: "telegram_items", // Folder in Cloudinary
       });
 
