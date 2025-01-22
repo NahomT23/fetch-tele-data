@@ -11,6 +11,8 @@ dotenv.config();
 const CLIENT_URL = process.env.CLIENT_URL
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+
+
 export const addItem = async (message) => {
   const { caption, message_id, media_group_id } = message;
   const lines = caption.split("\n").map((line) => line.trim());
@@ -55,6 +57,8 @@ export const addItem = async (message) => {
 //     }
 //   }
 // };
+
+
 
 export const updateItemImages = async (photo, media_group_id) => {
   const largestPhoto = photo[photo.length - 1];
