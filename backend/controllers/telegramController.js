@@ -11,6 +11,9 @@
 //     }
 //   };
   
+
+import axios from 'axios'
+
 export const getFileUrl = async (fileId, BOT_TOKEN) => {
   try {
     const filePathResponse = await axios.get(
