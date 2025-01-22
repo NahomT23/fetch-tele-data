@@ -1,109 +1,16 @@
 
-// import { collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc, getDoc } from "firebase/firestore";
-// import { db } from "../config/firebase.js";
-// import { getFileUrl } from "../controllers/telegramController.js";
-// import Stripe from 'stripe';
-// import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-// import axios from "axios";
-// import dotenv from "dotenv";
-// dotenv.config();
-
-
-// const CLIENT_URL = process.env.CLIENT_URL
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-// export const addItem = async (message) => {
-//   const { caption, message_id, media_group_id } = message;
-//   const lines = caption.split("\n").map((line) => line.trim());
-//   const name = lines[0] || "";
-//   const description = lines[1] || "";
-//   const price = lines[2] ? lines[2].replace(/,/g, "") : "";
-//   const specs = lines.slice(3).join("\n");
-
-//   const itemRef = collection(db, "items");
-//   const item = {
-//     message_id,
-//     media_group_id,
-//     name,
-//     description,
-//     price,
-//     specs,
-//     imageUrls: [],
-//   };
-
-//   await addDoc(itemRef, item);
-// };
-
-// export const updateItemImages = async (photo, media_group_id) => {
-//   const largestPhoto = photo[photo.length - 1];
-//   const imageUrl = await getFileUrl(largestPhoto.file_id, process.env.BOT_TOKEN);
-
-//   if (imageUrl) {
-//     const itemRef = collection(db, "items");
-//     const q = query(itemRef, where("media_group_id", "==", media_group_id));
-//     const querySnapshot = await getDocs(q);
-
-//     if (!querySnapshot.empty) {
-//       querySnapshot.forEach(async (docSnap) => {
-//         const existingItem = docSnap.data();
-//         if (!existingItem.imageUrls.includes(imageUrl)) {
-//           existingItem.imageUrls.push(imageUrl);
-//           await updateDoc(doc(db, "items", docSnap.id), {
-//             imageUrls: existingItem.imageUrls,
-//           });
-//         }
-//       });
-//     }
-//   }
-// };
-
-// export const fetchItems = async () => {
-//   const itemsSnapshot = await getDocs(collection(db, "items"));
-//   return itemsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-// };
-
-// export const fetchItemById = async (id) => {
-//   const itemDoc = await getDoc(doc(db, "items", id));
-//   return itemDoc.exists() ? { id: itemDoc.id, ...itemDoc.data() } : null;
-// };
-
-// export const deleteItemByMediaGroupId = async (media_group_id) => {
-//   const q = query(collection(db, "items"), where("media_group_id", "==", media_group_id));
-//   const querySnapshot = await getDocs(q);
-//   querySnapshot.forEach(async (docSnap) => {
-//     await deleteDoc(doc(db, "items", docSnap.id));
-//   });
-// };
-
-// export const createStripeSession = async (items) => {
-//   return stripe.checkout.sessions.create({
-//     payment_method_types: ["card"],
-//     line_items: items.map((item) => ({
-//       price_data: {
-//         currency: "usd",
-//         product_data: {
-//           name: item.name,
-//         },
-//         unit_amount: Math.round(item.price * 100),
-//       },
-//       quantity: item.quantity,
-//     })),
-//     mode: "payment",
-//     success_url: `${CLIENT_URL}/success`,
-//     cancel_url: `${CLIENT_URL}/cart`,
-//   });
-// };
-
-
-
 import { collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase.js";
+import { getFileUrl } from "../controllers/telegramController.js";
+import Stripe from 'stripe';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
 import dotenv from "dotenv";
-
 dotenv.config();
 
-const IMG_BB_API_KEY = process.env.IMG_BB_API_KEY;
+
+const CLIENT_URL = process.env.CLIENT_URL
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const addItem = async (message) => {
   const { caption, message_id, media_group_id } = message;
@@ -129,56 +36,24 @@ export const addItem = async (message) => {
 
 export const updateItemImages = async (photo, media_group_id) => {
   const largestPhoto = photo[photo.length - 1];
-  const fileUrl = await getFileUrl(largestPhoto.file_id);
+  const imageUrl = await getFileUrl(largestPhoto.file_id, process.env.BOT_TOKEN);
 
-  if (fileUrl) {
-    const imgBBUrl = await uploadToImgBB(fileUrl);
+  if (imageUrl) {
+    const itemRef = collection(db, "items");
+    const q = query(itemRef, where("media_group_id", "==", media_group_id));
+    const querySnapshot = await getDocs(q);
 
-    if (imgBBUrl) {
-      const itemRef = collection(db, "items");
-      const q = query(itemRef, where("media_group_id", "==", media_group_id));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        querySnapshot.forEach(async (docSnap) => {
-          const existingItem = docSnap.data();
-          if (!existingItem.imageUrls.includes(imgBBUrl)) {
-            existingItem.imageUrls.push(imgBBUrl);
-            await updateDoc(doc(db, "items", docSnap.id), {
-              imageUrls: existingItem.imageUrls,
-            });
-          }
-        });
-      }
+    if (!querySnapshot.empty) {
+      querySnapshot.forEach(async (docSnap) => {
+        const existingItem = docSnap.data();
+        if (!existingItem.imageUrls.includes(imageUrl)) {
+          existingItem.imageUrls.push(imageUrl);
+          await updateDoc(doc(db, "items", docSnap.id), {
+            imageUrls: existingItem.imageUrls,
+          });
+        }
+      });
     }
-  }
-};
-
-const getFileUrl = async (fileId) => {
-  try {
-    const filePathResponse = await axios.get(
-      `https://api.telegram.org/bot${process.env.BOT_TOKEN}/getFile?file_id=${fileId}`
-    );
-    const filePath = filePathResponse.data.result.file_path;
-    return `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${filePath}`;
-  } catch (error) {
-    console.error("Error fetching Telegram image:", error);
-    return null;
-  }
-};
-
-const uploadToImgBB = async (imageUrl) => {
-  try {
-    const response = await axios.post(
-      `https://api.imgbb.com/1/upload?key=${IMG_BB_API_KEY}`,
-      {
-        image: imageUrl,
-      }
-    );
-    return response.data.data.url;
-  } catch (error) {
-    console.error("Error uploading image to ImgBB:", error);
-    return null;
   }
 };
 
@@ -199,3 +74,23 @@ export const deleteItemByMediaGroupId = async (media_group_id) => {
     await deleteDoc(doc(db, "items", docSnap.id));
   });
 };
+
+export const createStripeSession = async (items) => {
+  return stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: items.map((item) => ({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: item.name,
+        },
+        unit_amount: Math.round(item.price * 100),
+      },
+      quantity: item.quantity,
+    })),
+    mode: "payment",
+    success_url: `${CLIENT_URL}/success`,
+    cancel_url: `${CLIENT_URL}/cart`,
+  });
+};
+
