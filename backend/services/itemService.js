@@ -2,10 +2,18 @@ import { collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc, g
 import { db } from "../config/firebase.js";
 import { getFileUrl } from "../controllers/telegramController.js";
 import Stripe from 'stripe';
-import cloudinary from "cloudinary";
-
+import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 dotenv.config();
+
+
+
+cloudinary.config({
+  cloud_name: 'dxhm4bjs2',
+  api_key: '972412855347386',
+  api_secret: 'R19mEf5jIVqPCMM-GjV1kbgmqJg',
+  secure: true
+});
 
 
 const CLIENT_URL = process.env.CLIENT_URL
