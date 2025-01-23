@@ -21,8 +21,6 @@ app.use("/api", routes);
 
 app.post("/create-checkout-session", createCheckoutSession);
 
-
-
 // Set Telegram Webhook
 const setWebhook = async () => {
   try {
