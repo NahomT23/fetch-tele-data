@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Cart from "./components/Cart";
 import ItemDetailPage from "./components/ItemDetailPage";
 import About from "./pages/About";
+import Footer from "./components/Footer"
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
             <Route path="/item/:id" element={<ItemDetailPage/>}/>
             <Route path="/about" element={<About/>}/>
         </Routes>
+        <Footer/>
     </Router>
   );
 };

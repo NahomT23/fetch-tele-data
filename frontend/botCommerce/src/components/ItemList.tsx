@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from "../app/store";
 import ItemCard from "./ItemCard";
 import { Item } from "../types";
 import SearchAndFilter from "./SearchAndFilter";
+import ScrollToTopButton from "./ScrollToTopButton";
 
 const ItemList: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState<Record<number, number>>({});
@@ -65,12 +66,11 @@ const ItemList: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-
-<div className="flex justify-center text-center">
-                <p className="w-full whitespace-nowrap overflow-hidden animate-typing font-baskervville text-3xl text-red-950 my-2">
-                    KALIT WATCH STORE
-                </p>
-            </div>
+      <div className="flex justify-center text-center">
+        <p className="w-full whitespace-nowrap overflow-hidden animate-typing font-baskervville text-3xl text-red-950 my-2">
+          KALIT WATCH STORE
+        </p>
+      </div>
 
       <main className="container mx-auto py-8">
         <SearchAndFilter
@@ -104,9 +104,10 @@ const ItemList: React.FC = () => {
           </div>
         )}
       </main>
+
+      <ScrollToTopButton />
     </div>
   );
 };
 
 export default ItemList;
-
