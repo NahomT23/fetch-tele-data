@@ -19,7 +19,7 @@ app.use(cors());
 // Routes
 app.use("/api", routes);
 
-app.post("/create-checkout-session", createCheckoutSession);
+// app.post("/create-checkout-session", createCheckoutSession);
 
 // Set Telegram Webhook
 const setWebhook = async () => {
