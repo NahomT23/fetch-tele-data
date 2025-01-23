@@ -55,7 +55,6 @@ const Cart: React.FC = () => {
   };
   
 
-
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <main className="container mx-auto py-8">
