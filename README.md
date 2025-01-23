@@ -1,6 +1,4 @@
 
-Here’s the revised description with TypeScript, Redux, and Cloudinary added, and Firebase Authentication removed:
-
 E-Commerce Platform with Telegram Bot Integration
 A powerful and user-friendly e-commerce platform built with React, TypeScript, Express, Node.js, Stripe, Tailwind CSS, Redux, Cloudinary, Firebase Database, and the Telegram Bot API. This platform allows store owners to manage products, process purchases, and sync data seamlessly between the website and Telegram.
 
