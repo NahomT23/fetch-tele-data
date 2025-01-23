@@ -1,10 +1,9 @@
 import React from "react";
 import { FaFacebook, FaTelegram, FaInstagram } from "react-icons/fa";
 import { BiMap, BiEnvelope, BiPhone } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Footer: React.FC = () => {
-  const navigate = useNavigate();
 
   return (
     <div id="footer" className="footer-container bg-gradient-to-b from-black to-gray-950 text-white py-10">
