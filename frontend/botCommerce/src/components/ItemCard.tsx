@@ -63,7 +63,11 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, currentImageIndex, onNextImag
 
       <Link to={`/item/${item.id}`}>
         <div className="p-4">
-          <h2 className="text-xl font-bold text-red-950">{item.name.length > 14 ? item.name.slice(0, 14) : item.name}</h2>
+          {/* <h2 className="text-xl font-bold text-red-950">{item.name.length > 14 ? item.name.slice(0, 14) : item.name}</h2> */}
+          <h2 className="text-xl font-bold text-red-950">
+  {item.name.length > 14 ? `${item.name.slice(0, 14)}...` : item.name}
+</h2>
+
           <p className="text-gray-950">{item.description.length > 15 ?  `${item.description.slice(0, 15)}`  :  item.description}</p>
           <p className="text-gray-900 font-bold mt-1">Price: ${formatPrice(Number(item.price))}</p>
           
