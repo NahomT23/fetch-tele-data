@@ -28,7 +28,7 @@ const Cart: React.FC = () => {
   const handleCheckout = async () => {
     try {
 
-      const response = await fetch('/create-checkout-session', {
+      const response = await fetch('https://fetch-tele-data.vercel.app/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
