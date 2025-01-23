@@ -43,31 +43,6 @@ export const addItem = async (message) => {
   await addDoc(itemRef, item);
 };
 
-// export const updateItemImages = async (photo, media_group_id) => {
-//   const largestPhoto = photo[photo.length - 1];
-//   const imageUrl = await getFileUrl(largestPhoto.file_id, process.env.BOT_TOKEN);
-
-//   if (imageUrl) {
-//     const itemRef = collection(db, "items");
-//     const q = query(itemRef, where("media_group_id", "==", media_group_id));
-//     const querySnapshot = await getDocs(q);
-
-//     if (!querySnapshot.empty) {
-//       querySnapshot.forEach(async (docSnap) => {
-//         const existingItem = docSnap.data();
-//         if (!existingItem.imageUrls.includes(imageUrl)) {
-//           existingItem.imageUrls.push(imageUrl);
-//           await updateDoc(doc(db, "items", docSnap.id), {
-//             imageUrls: existingItem.imageUrls,
-//           });
-//         }
-//       });
-//     }
-//   }
-// };
-
-
-
 export const updateItemImages = async (photo, media_group_id) => {
   const largestPhoto = photo[photo.length - 1];
   const imageUrl = await getFileUrl(largestPhoto.file_id, process.env.BOT_TOKEN);
@@ -99,7 +74,6 @@ export const updateItemImages = async (photo, media_group_id) => {
     }
   }
 };
-
 
 export const fetchItems = async () => {
   const itemsSnapshot = await getDocs(collection(db, "items"));
